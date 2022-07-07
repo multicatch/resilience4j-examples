@@ -1,14 +1,13 @@
 package io.github.multicatch.resilience4j.ratelimiter;
 
-import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
-import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
+import io.github.resilience4j.ratelimiter.internal.SemaphoreBasedRateLimiter;
 
 import java.time.Duration;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Example {
+public class SemaphoreRateLimiterExample {
     public static void main(String[] args) {
         RateLimiterConfig config = RateLimiterConfig.custom()
                 .limitRefreshPeriod(Duration.ofSeconds(1))
@@ -16,10 +15,7 @@ public class Example {
                 .timeoutDuration(Duration.ofSeconds(25))
                 .build();
 
-        RateLimiterRegistry rateLimiterRegistry = RateLimiterRegistry.of(config);
-
-        RateLimiter rateLimiter = rateLimiterRegistry
-                .rateLimiter("rateLimiter1");
+        SemaphoreBasedRateLimiter rateLimiter = new SemaphoreBasedRateLimiter("rateLimiter1", config);
 
         ExecutorService executorService = Executors.newFixedThreadPool(4);
         for (int i = 0; i < 6; i++) {
