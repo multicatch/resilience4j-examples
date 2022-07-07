@@ -1,0 +1,10 @@
+.idea
+*.iml
+
+target
+out
+build
+
+!**/src/**/target
+!**/src/**/out
+!**/src/**/build
